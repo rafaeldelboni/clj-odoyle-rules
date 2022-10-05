@@ -37,36 +37,39 @@
     (fn []
       (println "Acabou"))]))
 
-(let [session (-> (o/->session)
-                  (o/add-rule same-name-rule)
-                  (o/add-rule one-group-rule)
-                  (o/insert 1 (merge #:ident.new{:nome "lula"
-                                                 :cargo "Presidente"
-                                                 :groups [{:nome "palacio" :type :org}
-                                                          {:nome "sao-bernardo" :type :org}]}
-                                     #:ident.old{:nome "lula"
-                                                 :cargo "Ex-Presidente"
-                                                 :groups [{:nome "sao-bernardo" :type :org}]}))
+(defn -main
+  "Invoke me with clojure -M -m scratch"
+  [& _args]
+  (let [session (-> (o/->session)
+                    (o/add-rule same-name-rule)
+                    (o/add-rule one-group-rule)
+                    (o/insert 1 (merge #:ident.new{:nome "lula"
+                                                   :cargo "Presidente"
+                                                   :groups [{:nome "palacio" :type :org}
+                                                            {:nome "sao-bernardo" :type :org}]}
+                                       #:ident.old{:nome "lula"
+                                                   :cargo "Ex-Presidente"
+                                                   :groups [{:nome "sao-bernardo" :type :org}]}))
 
-                  (o/insert 2 (merge #:ident.new{:cargo "Ex-Presidente"}
-                                     #:ident.old{:nome "bozo" :cargo "Presidente"}))
+                    (o/insert 2 (merge #:ident.new{:cargo "Ex-Presidente"}
+                                       #:ident.old{:nome "bozo" :cargo "Presidente"}))
 
-                  (o/insert 3 (merge #:ident.new{:nome "ozob" :cargo "Ex-Presidente"}
-                                     #:ident.old{:nome "bozo" :cargo "Presidente"}))
+                    (o/insert 3 (merge #:ident.new{:nome "ozob" :cargo "Ex-Presidente"}
+                                       #:ident.old{:nome "bozo" :cargo "Presidente"}))
 
-                  (o/insert 4 (merge #:ident.new{:nome "bozo"
-                                                 :cargo "Ex-Presidente"
-                                                 :groups [{:nome "presidio" :type :org}]}
-                                     #:ident.old{:nome "bozo"
-                                                 :cargo "Presidente"
-                                                 :groups [{:nome "palacio" :type :org}]}))
+                    (o/insert 4 (merge #:ident.new{:nome "bozo"
+                                                   :cargo "Ex-Presidente"
+                                                   :groups [{:nome "presidio" :type :org}]}
+                                       #:ident.old{:nome "bozo"
+                                                   :cargo "Presidente"
+                                                   :groups [{:nome "palacio" :type :org}]}))
 
-                  (o/insert 5 (merge #:ident.new{:nome "bozo"
-                                                 :cargo "Ex-Presidente"
-                                                 :groups [{:nome "presidio" :type :org}]}
-                                     #:ident.old{:nome "ozob"
-                                                 :cargo "Presidente"
-                                                 :groups [{:nome "palacio" :type :org}]}))
-                  o/fire-rules)]
-  (-> session (o/query-all :ident/same-name-rule) println)
-  (-> session (o/query-all :ident/one-group-rule) println))
+                    (o/insert 5 (merge #:ident.new{:nome "bozo"
+                                                   :cargo "Ex-Presidente"
+                                                   :groups [{:nome "presidio" :type :org}]}
+                                       #:ident.old{:nome "ozob"
+                                                   :cargo "Presidente"
+                                                   :groups [{:nome "palacio" :type :org}]}))
+                    o/fire-rules)]
+    (-> session (o/query-all :ident/same-name-rule) println)
+    (-> session (o/query-all :ident/one-group-rule) println)))
