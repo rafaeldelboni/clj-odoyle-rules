@@ -2,6 +2,15 @@
   "FIXME: my new org.corfield.new/scratch project."
   (:require [odoyle.rules :as o]))
 
+(def order-ranks [{:order :ident-without-responsible
+                   :priority 4}
+                  {:order :ident-with-responsible
+                   :priority 3}
+                  {:order :group-without-parent
+                   :priority 2}
+                  {:order :group-with-parent
+                   :priority 1}])
+
 (def same-name-rule
   (o/->rule
    :ident/same-name-rule
